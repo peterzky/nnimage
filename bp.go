@@ -6,44 +6,44 @@ import (
 )
 
 func main(){
-	nn := gonn.NewNetwork(2,3,1,true,0.0001,0.01)
+	nn := gonn.NewNetwork(3,4,3,true,0.0001,0.01)
 	//定义输入样本 
-	inputs := [][]float64 {
-		[]float64{0,0},
-		[]float64{0,1},
-		[]float64{1,0},
-		[]float64{1,1},
+	// inputs := [][]float64 {
+	// 	[]float64{0,0,0},
+	// 	[]float64{0,1,1},
+	// 	[]float64{1,0,2},
+	// 	[]float64{1,1},
 
-		[]float64{2,3},
-		[]float64{3,4},
-		[]float64{4,5},
-		[]float64{5,6},
-
-
-		[]float64{10,11},
-		[]float64{11,12},
-		[]float64{12,13},
-		[]float64{13,14},
-
-	}
-
-	targets := [][]float64 {
-		[]float64{0},//0+0=0
-		[]float64{1},//0+1=1
-		[]float64{1},//1+0=1
-		[]float64{2},//1+1=2
-
-		[]float64{5},
-		[]float64{7},
-		[]float64{9},
-		[]float64{11},
+	// 	[]float64{2,3},
+	// 	[]float64{3,4},
+	// 	[]float64{4,5},
+	// 	[]float64{5,6},
 
 
-		[]float64{21},
-		[]float64{23},
-		[]float64{25},
-		[]float64{27},
-	}
+	// 	[]float64{10,11},
+	// 	[]float64{11,12},
+	// 	[]float64{12,13},
+	// 	[]float64{13,14},
+
+	// }
+
+	// targets := [][]float64 {
+	// 	[]float64{0},//0+0=0
+	// 	[]float64{1},//0+1=1
+	// 	[]float64{1},//1+0=1
+	// 	[]float64{2},//1+1=2
+
+	// 	[]float64{5},
+	// 	[]float64{7},
+	// 	[]float64{9},
+	// 	[]float64{11},
+
+
+	// 	[]float64{21},
+	// 	[]float64{23},
+	// 	[]float64{25},
+	// 	[]float64{27},
+	// }
 
 	// for i := 0 ; i < 1000 ; i++ {
 	// 	inputs = append(inputs,[]float64{float64(i)})
@@ -51,10 +51,19 @@ func main(){
 	// }
 
 	// fmt.Println(inputs,targets)
+	inputs := make([][]float64, 10)
+	targets := make([][]float64,10)
+
+	for i := 0; i < len(inputs);i++ {
+		x := float64(i)
+		inputs[i] = []float64{x,x+1,x+2}
+		targets[i] = []float64{x+1,x+2,x+3}
+	}
+	fmt.Println(inputs,targets)
 
 	
 
-	nn.Train(inputs,targets,1000000)
+	nn.Train(inputs,targets,10000000)
 
 	for _,p := range inputs{
 		fmt.Println(nn.Forward(p))
