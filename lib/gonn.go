@@ -1,12 +1,12 @@
-package gonn
+package lib
 
 import (
+	"encoding/json"
 	"fmt"
 	"math"
 	"math/rand"
-	"time"
-	"encoding/json"
 	"os"
+	"time"
 )
 
 type NeuralNetwork struct {
@@ -32,29 +32,29 @@ func dsigmoid(Y float64) float64 {
 	return Y * (1.0 - Y)
 }
 
-func DumpNN(fileName string, nn *NeuralNetwork){
-	out_f, err := os.OpenFile(fileName,os.O_CREATE | os.O_RDWR,0777)
-	if err!=nil{
+func DumpNN(fileName string, nn *NeuralNetwork) {
+	out_f, err := os.OpenFile(fileName, os.O_CREATE|os.O_RDWR, 0777)
+	if err != nil {
 		panic("failed to dump the network to " + fileName)
 	}
 	defer out_f.Close()
 	encoder := json.NewEncoder(out_f)
 	err = encoder.Encode(nn)
-	if err!=nil{
+	if err != nil {
 		panic(err)
 	}
 }
 
-func LoadNN(fileName string) *NeuralNetwork{
+func LoadNN(fileName string) *NeuralNetwork {
 	in_f, err := os.Open(fileName)
-	if err!=nil{
-		panic("failed to load "+fileName)
+	if err != nil {
+		panic("failed to load " + fileName)
 	}
 	defer in_f.Close()
 	decoder := json.NewDecoder(in_f)
 	nn := &NeuralNetwork{}
 	err = decoder.Decode(nn)
-	if err!=nil{
+	if err != nil {
 		panic(err)
 	}
 	//fmt.Println(nn)
@@ -234,7 +234,7 @@ func (self *NeuralNetwork) Train(inputs [][]float64, targets [][]float64, iterat
 			}
 		}
 		if (iteration >= 10 && (i+1)%(iteration/10) == 0) || iteration < 10 {
-			fmt.Printf("\niteration %vth MSE: %.5f", i+1, cur_err / float64(len(inputs)))
+			fmt.Printf("\niteration %vth MSE: %.5f", i+1, cur_err/float64(len(inputs)))
 		}
 	}
 	fmt.Println("\ndone.")
@@ -251,7 +251,7 @@ func (self *NeuralNetwork) TrainMap(inputs []map[int]float64, targets [][]float6
 		cur_err := 0.0
 		for j := 0; j < len(inputs); j++ {
 			self.ForwardMap(inputs[idx_ary[j]])
-			self.FeedbackMap(targets[idx_ary[j]],inputs[idx_ary[j]] )
+			self.FeedbackMap(targets[idx_ary[j]], inputs[idx_ary[j]])
 			cur_err += self.CalcError(targets[idx_ary[j]])
 			if (j+1)%1000 == 0 {
 				if iter_flag != i {
@@ -262,22 +262,21 @@ func (self *NeuralNetwork) TrainMap(inputs []map[int]float64, targets [][]float6
 			}
 		}
 		if (iteration >= 10 && (i+1)%(iteration/10) == 0) || iteration < 10 {
-			fmt.Printf("\niteration %vth MSE: %.5f", i+1, cur_err / float64(len(inputs)))
+			fmt.Printf("\niteration %vth MSE: %.5f", i+1, cur_err/float64(len(inputs)))
 		}
 	}
 	fmt.Println("\ndone.")
 }
 
-
 func (self *NeuralNetwork) ForwardMap(input map[int]float64) (output []float64) {
-	for k,v := range input {
+	for k, v := range input {
 		self.InputLayer[k] = v
 	}
 	self.InputLayer[len(self.InputLayer)-1] = 1.0 //bias node for input layer
 
 	for i := 0; i < len(self.HiddenLayer)-1; i++ {
 		sum := 0.0
-		for j,_ := range input{
+		for j, _ := range input {
 			sum += self.InputLayer[j] * self.WeightHidden[i][j]
 		}
 		self.HiddenLayer[i] = sigmoid(sum)
@@ -298,7 +297,7 @@ func (self *NeuralNetwork) ForwardMap(input map[int]float64) (output []float64) 
 	return self.OutputLayer[:]
 }
 
-func (self *NeuralNetwork) FeedbackMap(target []float64,input map[int]float64) {
+func (self *NeuralNetwork) FeedbackMap(target []float64, input map[int]float64) {
 	for i := 0; i < len(self.OutputLayer); i++ {
 		self.ErrOutput[i] = self.OutputLayer[i] - target[i]
 	}
@@ -333,7 +332,7 @@ func (self *NeuralNetwork) FeedbackMap(target []float64,input map[int]float64) {
 	}
 
 	for i := 0; i < len(self.HiddenLayer)-1; i++ {
-		for j , _ := range input {
+		for j, _ := range input {
 			delta := self.ErrHidden[i] * dsigmoid(self.HiddenLayer[i])
 			change := self.Rate1*delta*self.InputLayer[j] + self.Rate2*self.LastChangeHidden[i][j]
 			self.WeightHidden[i][j] -= change

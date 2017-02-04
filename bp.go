@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"./lib/gonn"
+	gonn "./lib"
 )
 
 func main() {
