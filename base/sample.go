@@ -2,11 +2,9 @@ package base
 
 import (
 	"encoding/hex"
-	"log"
-
-	"math/rand"
-
 	"io/ioutil"
+	"log"
+	"math/rand"
 	"strings"
 )
 
@@ -14,6 +12,7 @@ type Sample struct {
 	Input, Target []float64
 }
 
+// generate inputs and targets for training
 func GenData(s []Sample) (inputs, targets [][]float64) {
 	for _, v := range s {
 		inputs = append(inputs, v.Input)
@@ -40,6 +39,7 @@ func genTarget(h string, l int) [][]float64 {
 
 }
 
+// shuffle smaples order
 func shuffle(s []Sample) []Sample {
 	for i := range s {
 		j := rand.Intn(i + 1)
@@ -49,13 +49,14 @@ func shuffle(s []Sample) []Sample {
 
 }
 
-// readImage to array
+// read image to pixel array
 func readImage(path string) [][]float64 {
 	p := ImageToPixels(path)
 	pa := ConcatPixels(p)
 	return pa
 }
 
+// generator target pair with input string
 func genTrain(path string, h string) []Sample {
 	inputs := readImage(path)
 	targets := genTarget(h, len(inputs))
