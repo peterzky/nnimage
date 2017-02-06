@@ -1,15 +1,11 @@
 package main
 
-import (
-	"fmt"
-
-	"github.com/peterzky/nnimage/base"
-)
+import "github.com/peterzky/nnimage/base"
 
 func main() {
-	s := base.GenSamples("./img")
-	in, ta := base.Data(s)
-	for i := 0; i < 10; i++ {
-		fmt.Println(in[i], ta[i])
-	}
+	s := base.GenSamples("./img", "png")
+	in, ta := base.GenData(s)
+	nn := base.NewNetwork(3, 4, 3, true, 0.1, 0.1)
+	nn.Train(in, ta, 5)
+	base.DumpNN("dump.json", nn)
 }

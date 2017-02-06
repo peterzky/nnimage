@@ -5,12 +5,12 @@ import (
 	"os"
 	"strconv"
 
-	gonn "./lib"
+	"github.com/peterzky/nnimage/base"
 )
 
 func main() {
 	var numbers []float64
-	nn := gonn.LoadNN("./dump/dump.json")
+	nn := base.LoadNN("dump.json")
 	if len(os.Args) <= 1 {
 		return
 	}

@@ -14,7 +14,7 @@ type Sample struct {
 	Input, Target []float64
 }
 
-func gendata(s []Sample) (inputs, targets [][]float64) {
+func GenData(s []Sample) (inputs, targets [][]float64) {
 	for _, v := range s {
 		inputs = append(inputs, v.Input)
 		targets = append(targets, v.Target)
@@ -67,7 +67,7 @@ func genTrain(path string, h string) []Sample {
 	return samples
 }
 
-func GenSamples(p string) []Sample {
+func GenSamples(p, ext string) []Sample {
 	var s []Sample
 	files, err := ioutil.ReadDir(p)
 	if err != nil {
@@ -75,7 +75,7 @@ func GenSamples(p string) []Sample {
 	}
 	for _, file := range files {
 		path := p + "/" + file.Name()
-		hex := strings.TrimSuffix(file.Name(), ".png")
+		hex := strings.TrimSuffix(file.Name(), "."+ext)
 		x := genTrain(path, hex)
 		s = append(s, x...)
 	}
