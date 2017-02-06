@@ -9,12 +9,22 @@ import (
 	"os"
 )
 
-func main() {
+// ConcatPixels convert to array
+func ConcatPixels(p [][]Pixel) []Pixel {
+	b := []Pixel{}
+	for _, v := range p {
+		b = append(b, v...)
+	}
+	return b
+}
+
+// convert image to pixel array
+func ImageToPixels(path string) [][]Pixel {
 	// You can register another format here
 	image.RegisterFormat("png", "png", png.Decode, png.DecodeConfig)
 	image.RegisterFormat("jpeg", "jpg", jpeg.Decode, jpeg.DecodeConfig)
 
-	file, err := os.Open(os.Args[1])
+	file, err := os.Open(path)
 
 	if err != nil {
 		fmt.Println("Error: File could not be opened")
@@ -30,7 +40,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println(pixels)
+	return pixels
 }
 
 // Get the bi-dimensional pixel array
@@ -58,13 +68,13 @@ func getPixels(file io.Reader) ([][]Pixel, error) {
 
 // img.At(x, y).RGBA() returns four uint32 values; we want a Pixel
 func rgbaToPixel(r uint32, g uint32, b uint32, a uint32) Pixel {
-	return Pixel{int(r / 257), int(g / 257), int(b / 257), int(a / 257)}
+	return Pixel{float64(r / 257), float64(g / 257), float64(b / 257), float64(a / 257)}
 }
 
 // Pixel struct example
 type Pixel struct {
-	R int
-	G int
-	B int
-	A int
+	R float64
+	G float64
+	B float64
+	A float64
 }
