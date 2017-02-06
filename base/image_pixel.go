@@ -1,4 +1,4 @@
-package lib
+package base
 
 import (
 	"fmt"
@@ -10,12 +10,18 @@ import (
 )
 
 // ConcatPixels convert to array
-func ConcatPixels(p [][]Pixel) []Pixel {
+func ConcatPixels(p [][]Pixel) [][]float64 {
 	b := []Pixel{}
+	f := [][]float64{}
 	for _, v := range p {
 		b = append(b, v...)
 	}
-	return b
+	for _, x := range b {
+		ff := []float64{x.R, x.G, x.B}
+		f = append(f, ff)
+	}
+	return f
+
 }
 
 // convert image to pixel array
