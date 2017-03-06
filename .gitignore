@@ -7,3 +7,5 @@ dump.json
 /sample/0000ff.png
 /sample/005500.png
 /sample/*
+/genimage/img/0.png
+/genimage/img/*
