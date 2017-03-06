@@ -7,8 +7,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-
-	"github.com/peterzky/nnimage/base"
 )
 
 // crop x1,y1 is the anchor. x2,y2 is the size
@@ -24,7 +22,7 @@ func crop(src image.Image, x1, y1, x2, y2 int) image.Image {
 
 }
 
-// Crop image with default position
+//CropImg Crop image with default position
 func CropImg(path, name string) {
 	image.RegisterFormat("jpeg", "jpg", jpeg.Decode, jpeg.DecodeConfig)
 	image.RegisterFormat("png", "png", png.Decode, png.DecodeConfig)
@@ -54,16 +52,15 @@ func CropImg(path, name string) {
 }
 
 func CreateCropSample(path string) {
-	path := "/home/peterzky/Downloads/downloads/一数科技/screenshots/"
 	files, err := ioutil.ReadDir(path)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	colors := base.GenColor(85)
+	colors := GenColor(85)
 	var hex []string
 	for _, c := range colors {
-		hex = append(hex, base.HexRename(c))
+		hex = append(hex, HexRename(c))
 
 	}
 	hex = hex[1:]

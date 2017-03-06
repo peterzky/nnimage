@@ -5,11 +5,11 @@ import "github.com/codahale/hdrhistogram"
 import "fmt"
 
 func main() {
-	m := base.ImageToPixels("./img/out.png")
+	m := base.ImageToPixels("./sample/00ff00.png")
 	p := base.ConcatPixels(m)
 	var a []int64
 	for _, v := range p {
-		a = append(a, int64(v[1]))
+		a = append(a, int64(v[2]))
 	}
 	hist := hdrhistogram.New(0, 255, 1)
 	for _, sample := range a {
