@@ -112,9 +112,9 @@ func genImage2(c biColor, filename string) {
 }
 
 func main() {
-	colorsR := gencolor(15, 15, "R")
-	colorsG := gencolor(15, 15, "G")
-	colorsB := gencolor(15, 15, "B")
+	colorsR := gencolor(15, 5, "R")
+	colorsG := gencolor(15, 5, "G")
+	colorsB := gencolor(15, 5, "B")
 	colors := append(append(colorsR, colorsG...), colorsB...)
 	for _, c := range colors {
 		genImage2(c, c.filename())
