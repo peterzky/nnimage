@@ -91,7 +91,7 @@ func genImage2(c biColor, filename string) {
 			img.Set(i, j, color.RGBA{l[0], l[1], l[2], 255})
 		}
 	}
-	for i := 100; i < 200; i++ {
+	for i := 100; i <= 200; i++ {
 		for j := 0; j <= 100; j++ {
 			img.Set(i, j, color.RGBA{r[0], r[1], r[2], 255})
 		}
