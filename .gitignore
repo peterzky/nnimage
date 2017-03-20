@@ -9,3 +9,4 @@ dump.json
 /sample/*
 /genimage/img/0.png
 /genimage/img/*
+/distro.csv
